@@ -1,0 +1,14 @@
+{
+  "name": "com.ddalacu.unity-utils",
+  "displayName": "UnityUtils",
+  "version": "0.0.1-preview",
+  "unity": "2019.1",
+  "description": "Utility methods for unity",
+  "keywords": [
+    "weaving"
+  ],
+  "author": {
+    "name": "Diac Paul Alexandru",
+    "email": "validiac@gmail.com"
+  }
+}
