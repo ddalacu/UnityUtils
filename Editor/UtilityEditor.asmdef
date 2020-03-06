@@ -1,12 +1,13 @@
 {
-    "name": "Utility",
+    "name": "UtilityEditor",
     "references": [
-        "GUID:def47feef11f912478a2c35b9e25eefd",
-        "GUID:6055be8ebefd69e48b49212b09b47b2f"
+        "GUID:4cdefe4b4657bbe4cbd6ca31a48259c2"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
-    "allowUnsafeCode": true,
+    "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,

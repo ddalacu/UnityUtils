@@ -5,16 +5,22 @@ using UnityEngine.Serialization;
 
 namespace Framework.Utility
 {
-    /// <summary>
-    /// Used to share values using scriptable objects
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public abstract class ScriptableValue<T> : ScriptableObject, IObservableValue<T>, IEquatable<ScriptableValue<T>>, ISerializationCallbackReceiver
+    public abstract class ScriptableValueBase : ScriptableObject
     {
         [Multiline]
         public string Description;//the value description, for what is this value used
 
-        [SerializeField, FormerlySerializedAs("Value"), HideInInspector]
+        public abstract void ForceNotifyValueChanged();
+    }
+
+
+    /// <summary>
+    /// Used to share values using scriptable objects
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public abstract class ScriptableValue<T> : ScriptableValueBase, IObservableValue<T>, IEquatable<ScriptableValue<T>>, ISerializationCallbackReceiver
+    {
+        [SerializeField, FormerlySerializedAs("Value")]
         private T _value;//the serialized value
 
         [SerializeField]
@@ -22,6 +28,8 @@ namespace Framework.Utility
 
         [SerializeField]
         protected T _defaultValue;//the serialized value
+
+        public T DefaultValue => _defaultValue;
 
         public event ObservableValueChangedDelegate<T> ValueChanged;
 
@@ -39,6 +47,11 @@ namespace Framework.Utility
                     ValueChanged(this);
                 }
             }
+        }
+
+        public override void ForceNotifyValueChanged()
+        {
+            ValueChanged?.Invoke(this);
         }
 
         public bool Equals(ScriptableValue<T> other)

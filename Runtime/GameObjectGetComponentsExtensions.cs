@@ -21,7 +21,7 @@ public static class GameObjectGetComponentsExtensions
         return new GetComponentQuery<T>(gameObject, false, includeInactive, false);
     }
 
-    public static void SetComponentsInChildrenEnabledState<T>(this GameObject gameObject, bool enabled, bool includeInactive = true) where T : MonoBehaviour
+    public static void SetComponentsInChildrenEnabledState<T>(this GameObject gameObject, bool enabled, bool includeInactive = true) where T : Behaviour
     {
         var internalList = ObjectListPool.Rent();
         GetComponentUtilities.GetComponents(gameObject, typeof(T), false, true, includeInactive, false, internalList);
