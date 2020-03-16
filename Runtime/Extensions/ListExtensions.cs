@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 ///<summary>
 /// Author Paul Diac
@@ -206,6 +207,15 @@ public static class ListExtensions
         }
 
         return (added, remved);
+    }
+
+    public static T GetRandomItem<T>(this IReadOnlyList<T> list)
+    {
+        var listCount = list.Count;
+        if(listCount==0)
+            throw new Exception("List size is 0, cant randomize!!");
+
+        return list[Random.Range(0, listCount)];
     }
 
 }

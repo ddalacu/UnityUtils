@@ -1,5 +1,4 @@
-﻿using System;
-using Framework.Utility;
+﻿using Framework.Utility;
 using TMPro;
 using UnityEngine;
 
