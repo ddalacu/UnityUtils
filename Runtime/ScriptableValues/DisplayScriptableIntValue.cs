@@ -8,6 +8,8 @@ public class DisplayScriptableIntValue : MonoBehaviour
 
     public ScriptableIntValue ValueToDisplay;
 
+    public int VisualAdd;
+
     private void OnEnable()
     {
         ValueToDisplay.ValueChanged += CurrencyValueChanged;
@@ -21,6 +23,6 @@ public class DisplayScriptableIntValue : MonoBehaviour
 
     private void CurrencyValueChanged(IObservableValue<int> observable)
     {
-        DisplayingText.text = observable.Value.ToString();
+        DisplayingText.text = (observable.Value + VisualAdd).ToString();
     }
 }
