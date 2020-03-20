@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "ScriptableAset/ScriptableLocalizationSystem", fileName = "ScriptableLocalizationSystem")]
@@ -51,7 +50,7 @@ public class ScriptableLocalizationSystem : ScriptableObject, ILocalizationSyste
         UpdateCurrentTranslations();
     }
 
-    [Button]
+    [ContextMenu("UpdateCurrentTranslations")]
     public void UpdateCurrentTranslations()
     {
         if (_localizedScriptableStrings == null)
@@ -71,7 +70,7 @@ public class ScriptableLocalizationSystem : ScriptableObject, ILocalizationSyste
     }
 
 #if UNITY_EDITOR
-    [Button]
+    [ContextMenu("FindAllTranslations")]
     private void FindAllTranslations()
     {
         var guids = UnityEditor.AssetDatabase.FindAssets($"t:{nameof(LocalizedScriptableString)}");
@@ -85,7 +84,7 @@ public class ScriptableLocalizationSystem : ScriptableObject, ILocalizationSyste
         }
     }
 
-    [Button]
+    [ContextMenu("UpdateUsedLanguages")]
     private void UpdateUsedLanguages()
     {
         FindAllTranslations();
