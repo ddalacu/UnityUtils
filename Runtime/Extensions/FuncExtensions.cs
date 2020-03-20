@@ -60,7 +60,7 @@ public static class FuncExtensions
         return true;
     }
 
-    public static bool AllFalse<T1>(this Func<bool> func, T1 param1)
+    public static bool AllFalse<T1>(this Func<T1, bool> func, T1 param1)
     {
         if (func != null)
             foreach (var del in func.GetInvocationList())
@@ -72,7 +72,7 @@ public static class FuncExtensions
         return true;
     }
 
-    public static bool AllTrue<T1, T2>(this Func<T1, bool> func, T1 param1, T2 param2)
+    public static bool AllTrue<T1, T2>(this Func<T1, T2, bool> func, T1 param1, T2 param2)
     {
         if (func != null)
             foreach (var del in func.GetInvocationList())
@@ -84,7 +84,7 @@ public static class FuncExtensions
         return true;
     }
 
-    public static bool AllFalse<T1, T2>(this Func<bool> func, T1 param1, T2 param2)
+    public static bool AllFalse<T1, T2>(this Func<T1, T2, bool> func, T1 param1, T2 param2)
     {
         if (func != null)
             foreach (var del in func.GetInvocationList())
