@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public static class Physics2DExtensions
 {
@@ -42,9 +43,9 @@ public static class Physics2DExtensions
         return false;
     }
 
-    public static bool IsColliderAInsideColliders(Collider2D A, Collider2D[] colliders)
+    public static bool IsColliderAInsideColliders(Collider2D A, IReadOnlyList<Collider2D> colliders)
     {
-        var length = colliders.Length;
+        var length = colliders.Count;
         for (var i = 0; i < length; i++)
         {
             if (colliders[i].isActiveAndEnabled == false)
