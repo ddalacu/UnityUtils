@@ -2,6 +2,9 @@
 using Framework.Utility;
 using UnityEngine;
 using UnityEngine.Events;
+using MonoBehaviour = UnityEngine.MonoBehaviour;
+using ScriptableBoolValue = Framework.Utility.ScriptableBoolValue;
+using UnityEvent = UnityEngine.Events.UnityEvent;
 
 public class ScriptableValueBoolTestBehaviour : MonoBehaviour
 {
