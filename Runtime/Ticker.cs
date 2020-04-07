@@ -19,6 +19,9 @@ namespace Framework.Utility
         {
             Debug.Assert(TickInterval > 0);
 
+            if (TickInterval <= 0)
+                throw new Exception("Tick interval should be bigger than 0!");
+
             _tick += deltaTime;
 
             uint ticksCount = 0;
