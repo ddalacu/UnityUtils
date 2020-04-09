@@ -94,8 +94,6 @@ public class ScriptableLocalizationSystem : ScriptableObject, ILocalizationSyste
             foreach (var item in str.Translations)
                 list.Add(item.Language);
 
-        Debug.Log(list.Count);
-
         AvailableLanguages = new SystemLanguage[list.Count];
         list.CopyTo(AvailableLanguages);
     }
@@ -104,13 +102,15 @@ public class ScriptableLocalizationSystem : ScriptableObject, ILocalizationSyste
 
     public string GetState()
     {
-        return JsonConvert.SerializeObject(Language);
+        return Language.ToString();
     }
 
     public void LoadState(string state)
     {
-        var activeLanguage = JsonConvert.DeserializeObject<SystemLanguage>(state);
-        Language = activeLanguage;
+        if (Enum.TryParse<SystemLanguage>(state, out var result))
+        {
+            Language = result;
+        }
     }
 
     public void LoadDefaultState()
