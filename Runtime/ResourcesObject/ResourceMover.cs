@@ -102,15 +102,14 @@ public class ResourceMover : IPreprocessBuildWithReport, IPostprocessBuildWithRe
     {
         ResourcesObject.EditorIsBuilding = true;
         EditorApplication.update += Update;
+        var guids = GetAssetsGuids();
+        var count = guids.Count;
+
+        if (count == 0)
+            return;
 
         try
         {
-            var guids = GetAssetsGuids();
-            var count = guids.Count;
-
-            if (count == 0)
-                return;
-
             AssetDatabase.StartAssetEditing();
             int percent = count / 10;
 
@@ -153,16 +152,14 @@ public class ResourceMover : IPreprocessBuildWithReport, IPostprocessBuildWithRe
         if (FileInfos == null)
             return;
 
+        int count = FileInfos.Count;
+        int percent = count / 10;
+        if (percent == 0)
+            percent++;
+
         try
         {
             AssetDatabase.StartAssetEditing();
-
-            int count = FileInfos.Count;
-
-            int percent = count / 10;
-
-            if (percent == 0)
-                percent++;
 
             for (int index = 0; index < count; index++)
             {
