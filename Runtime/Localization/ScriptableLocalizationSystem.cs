@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "ScriptableAset/ScriptableLocalizationSystem", fileName = "ScriptableLocalizationSystem")]
 public class ScriptableLocalizationSystem : ScriptableObject, ILocalizationSystem
 {
-    public string SaveIdentifier => nameof(ScriptableLocalizationSystem);
+    public string SaveIdentifier => "ScriptableLocalizationSystemSaveId";
 
     [SerializeField]
     private LocalizedScriptableString[] _localizedScriptableStrings;
