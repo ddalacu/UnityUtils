@@ -21,7 +21,7 @@ public class DisplayScriptableIntValue : MonoBehaviour
         ValueToDisplay.ValueChanged -= CurrencyValueChanged;
     }
 
-    private void CurrencyValueChanged(IObservableValue<int> observable)
+    protected virtual void CurrencyValueChanged(IObservableValue<int> observable)
     {
         DisplayingText.text = (observable.Value + VisualAdd).ToString();
     }

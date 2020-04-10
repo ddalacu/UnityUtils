@@ -25,7 +25,7 @@ class DisplayScriptableSpanValue : MonoBehaviour
         ValueToDisplay.ValueChanged -= CurrencyValueChanged;
     }
 
-    private void CurrencyValueChanged(IObservableValue<TimeSpan> observable)
+    protected virtual void CurrencyValueChanged(IObservableValue<TimeSpan> observable)
     {
         var val = observable.Value;
 
