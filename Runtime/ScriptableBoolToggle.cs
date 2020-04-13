@@ -10,8 +10,9 @@ public class ScriptableBoolToggle : MonoBehaviour
     [SerializeField]
     private Toggle _toggle;
 
-    private void Awake()
+    private void Start()
     {
+        _toggle.isOn = _scriptableBool.Value;
         _toggle.onValueChanged.AddListener(Toggled);
         _scriptableBool.ValueChanged += ValChanged;
     }
