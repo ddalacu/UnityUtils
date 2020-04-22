@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "ScriptableAset/ScriptableLocalizationSystem", fileName = "ScriptableLocalizationSystem")]
