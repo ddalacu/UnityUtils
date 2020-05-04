@@ -24,7 +24,7 @@ namespace Framework.Utility
         private T _value;//the serialized value
 
         [SerializeField]
-        private bool _setToDefaultWhenDeserialized;//the serialized value
+        private bool _setToDefaultWhenDeserialized = default;//the serialized value
 
         [SerializeField]
         protected T _defaultValue;//the serialized value

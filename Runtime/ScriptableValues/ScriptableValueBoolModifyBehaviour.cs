@@ -4,7 +4,7 @@ using UnityEngine;
 public class ScriptableValueBoolModifyBehaviour : MonoBehaviour
 {
     [SerializeField]
-    private ScriptableBoolValue _value;
+    private ScriptableBoolValue _value = default;
 
     public void SetValue(bool value)
     {

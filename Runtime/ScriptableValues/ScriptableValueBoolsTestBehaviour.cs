@@ -6,23 +6,23 @@ using UnityEngine.Serialization;
 public class ScriptableValueBoolsTestBehaviour : MonoBehaviour
 {
     [UnityEngine.SerializeField]
-    private ScriptableBoolValue[] _values;
+    private ScriptableBoolValue[] _values = default;
 
     [UnityEngine.SerializeField]
-    private UnityEvent _allEqualsEvent;
+    private UnityEvent _allEqualsEvent = default;
 
     [UnityEngine.SerializeField]
-    private UnityEvent _notEqualsEvent;
+    private UnityEvent _notEqualsEvent = default;
 
-    [UnityEngine.SerializeField]
-    private bool testAtAwake;
+    [FormerlySerializedAs("testAtAwake")] [UnityEngine.SerializeField]
+    private bool _testAtAwake = default;
 
-    [UnityEngine.SerializeField]
-    private bool awakeValue;
+    [FormerlySerializedAs("awakeValue")] [UnityEngine.SerializeField]
+    private bool _awakeValue = default;
 
     private void Awake()
     {
-        if (testAtAwake) Test(awakeValue);
+        if (_testAtAwake) Test(_awakeValue);
     }
 
     public void Test(bool value)

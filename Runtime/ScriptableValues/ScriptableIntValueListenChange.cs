@@ -10,10 +10,10 @@ public class ScriptableIntValueListenChange : MonoBehaviour
     }
 
     [SerializeField]
-    private MyIntEvent _valueChanged;
+    private MyIntEvent _valueChanged = default;
 
     [SerializeField]
-    private ScriptableIntValue _value;
+    private ScriptableIntValue _value = default;
 
     private void Awake()
     {

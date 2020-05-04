@@ -5,16 +5,16 @@ using UnityEngine.Events;
 public class ScriptableValueIntTestBehaviour : MonoBehaviour
 {
     [SerializeField]
-    private ScriptableIntValue _value;
+    private ScriptableIntValue _value = default;
 
     [SerializeField]
-    private UnityEvent _equalsEvent;
+    private UnityEvent _equalsEvent = default;
 
     [SerializeField]
-    private UnityEvent _smallerEvent;
+    private UnityEvent _smallerEvent = default;
 
     [SerializeField]
-    private UnityEvent _biggerEvent;
+    private UnityEvent _biggerEvent = default;
 
 
     public void Test(int value)

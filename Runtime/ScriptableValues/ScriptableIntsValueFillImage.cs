@@ -4,11 +4,11 @@ using UnityEngine.UI;
 
 class ScriptableIntsValueFillImage : MonoBehaviour
 {
-    public Image Image;
+    public Image Image = default;
 
-    public ScriptableIntValue A;
+    public ScriptableIntValue A = default;
 
-    public ScriptableIntValue B;
+    public ScriptableIntValue B = default;
 
     private void OnEnable()
     {

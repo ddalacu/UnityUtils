@@ -5,10 +5,10 @@ using UnityEngine.UI;
 public class ScriptableBoolToggle : MonoBehaviour
 {
     [SerializeField]
-    private ScriptableBoolValue _scriptableBool;
+    private ScriptableBoolValue _scriptableBool = default;
 
     [SerializeField]
-    private Toggle _toggle;
+    private Toggle _toggle = default;
 
     private void Start()
     {

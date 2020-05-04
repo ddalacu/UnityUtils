@@ -4,7 +4,7 @@ using UnityEngine;
 public class ScriptableValueIntModifyBehaviour : MonoBehaviour
 {
     [SerializeField]
-    private ScriptableIntValue _value;
+    private ScriptableIntValue _value = default;
 
     public void AddValue(int value)
     {

@@ -5,9 +5,9 @@ using UnityEngine;
 
 class DisplayScriptableSpanValue : MonoBehaviour
 {
-    public TMP_Text DisplayingText;
+    public TMP_Text DisplayingText = default;
 
-    public ScriptableSpanValue ValueToDisplay;
+    public ScriptableSpanValue ValueToDisplay = default;
 
     public bool DisplaySimple = true;
 

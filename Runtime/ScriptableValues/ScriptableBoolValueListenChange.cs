@@ -10,10 +10,10 @@ public class ScriptableBoolValueListenChange : MonoBehaviour
     }
 
     [SerializeField]
-    private MyBoolEvent _valueChanged;
+    private MyBoolEvent _valueChanged = default;
 
     [SerializeField]
-    private ScriptableBoolValue _value;
+    private ScriptableBoolValue _value = default;
 
     private void Awake()
     {
