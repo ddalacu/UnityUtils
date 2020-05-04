@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+[DefaultExecutionOrder(99)]
 public class UIZoom : MonoBehaviour, IScrollHandler, IPointerDownHandler, IPointerUpHandler
 {
 
@@ -24,6 +26,8 @@ public class UIZoom : MonoBehaviour, IScrollHandler, IPointerDownHandler, IPoint
     private readonly List<int> _pointers = new List<int>();
 
     private float? _lastDistance;
+
+    public event Action ScaleChanged; 
 
     private Touch GetTouchFromId(int pointerId)
     {
@@ -123,6 +127,9 @@ public class UIZoom : MonoBehaviour, IScrollHandler, IPointerDownHandler, IPoint
         var currPos = _scrollRect.content.localPosition;
 
         _rectTransform.localPosition = new Vector3(currPos.x + shiftX, currPos.y + shiftY, currPos.z);
+
+        ScaleChanged?.Invoke();
+
         return true;
     }
 

@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+[DefaultExecutionOrder(100)]
 public class MultiTouchScrollRect : ScrollRect
 {
     private readonly List<(int, Vector2)> _pointers = new List<(int, Vector2)>();
@@ -10,6 +12,8 @@ public class MultiTouchScrollRect : ScrollRect
     private Vector2 _initialPos;
 
     private RaycastResult _raycast;
+
+    public event Action PositionChanged;
 
     private bool IsRemote
     {
@@ -68,6 +72,8 @@ public class MultiTouchScrollRect : ScrollRect
                 position = _initialPos,
                 pointerPressRaycast = _raycast
             });
+
+            PositionChanged?.Invoke();
         }
     }
 
@@ -88,6 +94,7 @@ public class MultiTouchScrollRect : ScrollRect
         else if (SystemInfo.deviceType == DeviceType.Desktop)
         {
             base.OnDrag(eventData);
+            PositionChanged?.Invoke();
         }
     }
 
