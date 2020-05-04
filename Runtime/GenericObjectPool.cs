@@ -13,6 +13,8 @@ public class GenericObjectPool<T> where T : UnityEngine.Object
 
     public IEnumerable<T> ActiveElements => PoolItems.Where(tuple => tuple.Item2 && tuple.Item1 != null).Select(tuple => tuple.Item1);
 
+    public bool AnyActive => PoolItems.Any(tuple => tuple.Item2 && tuple.Item1 != null);
+
     public int GetActiveElementsCount()
     {
         int value = 0;
