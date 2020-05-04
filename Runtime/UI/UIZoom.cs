@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIZoomImage : MonoBehaviour, IScrollHandler, IPointerDownHandler, IPointerUpHandler
+public class UIZoom : MonoBehaviour, IScrollHandler, IPointerDownHandler, IPointerUpHandler
 {
 
     [SerializeField]
