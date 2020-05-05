@@ -13,7 +13,7 @@ namespace Framework.Utility
 {
     public static class AsyncUtils
     {
-        public static async Task<Button> WaitForButtonPress([NotNull] IEnumerable<Button> toListen, CancellationToken token)
+        public static async Task<Button> WaitForButtonPressAsync([NotNull] IEnumerable<Button> toListen, CancellationToken token)
         {
             if (toListen == null)
                 throw new ArgumentNullException(nameof(toListen));
