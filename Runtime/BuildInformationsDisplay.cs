@@ -16,6 +16,11 @@ namespace Framework.Utility
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void Initialize()
         {
+
+#if UNITY_EDITOR
+            return;
+#endif
+
             var infos = BuildInformations.LoadDefault();
 
             if (infos != null)
