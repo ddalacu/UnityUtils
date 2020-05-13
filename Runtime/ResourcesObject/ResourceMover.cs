@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
@@ -37,9 +38,11 @@ public class ResourceMover : IPreprocessBuildWithReport, IPostprocessBuildWithRe
 
         var moveResult = AssetDatabase.MoveAsset(assetPath, toMove);
 
+
         if (string.IsNullOrEmpty(moveResult) == false)
         {
-            Debug.LogError("Failed to move asset " + assetPath);
+            Debug.Log(File.Exists(assetPath));
+            Debug.LogError($"Failed to move asset {assetPath} Reason: {moveResult}");
             return string.Empty;
         }
 
@@ -103,6 +106,9 @@ public class ResourceMover : IPreprocessBuildWithReport, IPostprocessBuildWithRe
         ResourcesObject.EditorIsBuilding = true;
         EditorApplication.update += Update;
         var guids = GetAssetsGuids();
+
+        guids = guids.Distinct().ToList();
+
         var count = guids.Count;
 
         if (count == 0)
