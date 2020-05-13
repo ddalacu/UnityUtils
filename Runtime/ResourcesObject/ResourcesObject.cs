@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -33,12 +34,27 @@ public class ResourcesObject
 #endif
     }
 
-    public ResourceRequest LoadAsynk()
+    public async Task<T> LoadAsync<T>() where T : Object
     {
+        if (string.IsNullOrEmpty(_guid))
+            return null;
+
 #if UNITY_EDITOR
-        throw new Exception("This method is avail only in builds!");
+        var objectFromData = ObjReference.GetObjectFromData(_guid, _localId, _typeId);
+
+        Debug.Assert(Type == objectFromData.GetType());
+
+        return objectFromData as T;
 #else
-        return Resources.LoadAsync(_guid);
+        if (string.IsNullOrEmpty(_guid))
+            return null;
+
+        var request = Resources.LoadAsync<T>(_guid);
+
+        while (request.isDone == false)
+            await Task.Yield();
+
+        return request.asset as T;
 #endif
     }
 
