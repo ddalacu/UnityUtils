@@ -61,7 +61,11 @@ namespace Framework.Utility
                 {
                     if (result != null)
                     {
-                        if (AssetDatabase.IsMainAsset(result) == false)
+                        var asset = AssetDatabase.GetAssetPath(result);
+
+                        var reload = AssetDatabase.LoadAssetAtPath(asset, resourcesObjectAttribute.Type);
+
+                        if (result != reload)
                         {
                             Debug.LogError($"{result} is not a main asset, this field accepts only main assets!");
                             result = null;

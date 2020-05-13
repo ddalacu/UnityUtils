@@ -15,7 +15,7 @@ public class ResourcesObject
     /// Do not call this in OnBeforeSerialize/OnAfterDeserialize or you will crash!
     /// </summary>
     /// <returns></returns>
-    public Object Load()
+    public T Load<T>() where T : Object
     {
         if (string.IsNullOrEmpty(_guid))
             return null;
@@ -25,11 +25,11 @@ public class ResourcesObject
 
         Debug.Assert(Type == objectFromData.GetType());
 
-        return objectFromData;
+        return objectFromData as T;
 #else
         if (string.IsNullOrEmpty(_guid))
             return null;
-        return Resources.Load(_guid);
+        return Resources.Load<T>(_guid);
 #endif
     }
 
