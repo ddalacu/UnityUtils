@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
-
+using System.Threading;
 [Serializable]
 public class ResourcesObject
 #if UNITY_EDITOR
@@ -34,7 +34,8 @@ public class ResourcesObject
 #endif
     }
 
-    public async Task<T> LoadAsync<T>() where T : Object
+
+    public async Task<T> LoadAsync<T>(CancellationToken token) where T : Object
     {
         if (string.IsNullOrEmpty(_guid))
             return null;
@@ -52,7 +53,10 @@ public class ResourcesObject
         var request = Resources.LoadAsync<T>(_guid);
 
         while (request.isDone == false)
+        {
             await Task.Yield();
+            token.ThrowIfCancellationRequested();
+        }
 
         return request.asset as T;
 #endif
@@ -91,8 +95,8 @@ public class ResourcesObject
 #if UNITY_EDITOR
             return Type.GetType(_assemblyQualifiedTypeName);
 #else
-             if (_cachedType == null && string.IsNullOrEmpty(_assemblyQualifiedTypeName) == false)//we can cache type at runtime because _assemblyQualifiedTypeName will not change
-                 _cachedType = Type.GetType(_assemblyQualifiedTypeName);
+            if (_cachedType == null && string.IsNullOrEmpty(_assemblyQualifiedTypeName) == false)//we can cache type at runtime because _assemblyQualifiedTypeName will not change
+                _cachedType = Type.GetType(_assemblyQualifiedTypeName);
 
             return _cachedType;
 #endif
