@@ -113,7 +113,7 @@ public class ResourceMover : IPreprocessBuildWithReport, IPostprocessBuildWithRe
 
         if (count == 0)
             return;
-
+        Debug.Log($"Moving {count} assets to resources!");
         try
         {
             AssetDatabase.StartAssetEditing();
