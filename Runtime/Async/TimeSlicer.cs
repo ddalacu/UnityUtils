@@ -21,6 +21,14 @@ namespace Framework.Utility
             _milliseconds = milliseconds;
         }
 
+        public void Reset()
+        {
+            lock (_lock)
+            {
+                _topStack = 0;
+            }
+        }
+
         public async Task WaitDrifting(CancellationToken cancellationToken)
         {
             long delay;
