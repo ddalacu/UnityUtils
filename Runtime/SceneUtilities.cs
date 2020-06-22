@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine.SceneManagement;
 
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || !ENABLE_IL2CPP
 using System.Reflection;
 
 public static class SceneUtilities
