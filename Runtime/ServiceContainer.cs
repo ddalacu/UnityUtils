@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 public class ServiceContainer
@@ -57,5 +58,13 @@ public class ServiceContainer
             _serviceMap.TryGetValue(typeof(TServiceContract), out service);
         }
         return service as TServiceContract;
+    }
+
+    public object[] GetServices ()
+    {
+        lock (_serviceMapLock)
+        {
+            return _serviceMap.Values.ToArray();
+        }
     }
 }
