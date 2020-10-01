@@ -2,10 +2,10 @@ Requires
 
 "scopedRegistries": [
     {
-      "name": "Packages from jillejr",
-      "url": "https://npm.cloudsmith.io/jillejr/newtonsoft-json-for-unity/",
+      "name": "Unity NuGet",
+      "url": "https://unitynuget-registry.azurewebsites.net/",
       "scopes": [
-        "jillejr"
+        "org.nuget"
       ]
     }
   ]

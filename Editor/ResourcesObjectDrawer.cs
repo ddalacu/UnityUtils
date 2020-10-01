@@ -24,6 +24,7 @@ namespace Framework.Utility
                 var guidProperty = property.FindPropertyRelative("_guid");
                 var localIdProperty = property.FindPropertyRelative("_localId");
                 var typeIdProperty = property.FindPropertyRelative("_typeId");
+                var prefabIdProperty = property.FindPropertyRelative("_prefabId");
                 var objectNameProperty = property.FindPropertyRelative("_objectName");
                 var assemblyQalifiedProperty = property.FindPropertyRelative("_assemblyQualifiedTypeName");
 
@@ -81,11 +82,14 @@ namespace Framework.Utility
                         }
                     }
 
-                    if (result != null && ObjReference.GetDataFromObject(result, out var guid, out long localId, out long typeId))
+                    if (result != null)
                     {
-                        guidProperty.stringValue = guid;
-                        localIdProperty.longValue = localId;
-                        typeIdProperty.longValue = typeId;
+                        var globalObjId = GlobalObjectId.GetGlobalObjectIdSlow(result);
+
+                        guidProperty.stringValue = globalObjId.assetGUID.ToString();
+                        localIdProperty.longValue = (long)globalObjId.targetObjectId;
+                        prefabIdProperty.longValue = (long) globalObjId.targetPrefabId;
+                        typeIdProperty.intValue = globalObjId.identifierType;
                         objectNameProperty.stringValue = result.name;
                         assemblyQalifiedProperty.stringValue = result.GetType().AssemblyQualifiedName;
                     }
@@ -93,6 +97,8 @@ namespace Framework.Utility
                     {
                         guidProperty.stringValue = string.Empty;
                         localIdProperty.longValue = 0;
+                        prefabIdProperty.longValue = 0;
+                        typeIdProperty.intValue = 0;
                         objectNameProperty.stringValue = string.Empty;
                     }
                 }

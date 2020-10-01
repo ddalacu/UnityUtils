@@ -22,11 +22,17 @@ public class ResourcesObject
             return null;
 
 #if UNITY_EDITOR
-        var objectFromData = ObjReference.GetObjectFromData(_guid, _localId, _typeId);
 
-        Debug.Assert(Type == objectFromData.GetType());
+        var str = $"GlobalObjectId_V1-{_typeId}-{_guid}-{(ulong)_localId}-{(ulong)_prefabId}";
 
-        return objectFromData as T;
+        if (GlobalObjectId.TryParse(str, out var id))
+        {
+            var obj = GlobalObjectId.GlobalObjectIdentifierToObjectSlow(id);
+            Debug.Assert(Type == obj.GetType());
+            return obj as T;
+        }
+
+        return default;
 #else
         if (string.IsNullOrEmpty(_guid))
             return null;
@@ -34,18 +40,46 @@ public class ResourcesObject
 #endif
     }
 
+    public Object LoadObject()
+    {
+        if (string.IsNullOrEmpty(_guid))
+            return null;
 
+#if UNITY_EDITOR
+
+        var str = $"GlobalObjectId_V1-{_typeId}-{_guid}-{(ulong)_localId}-{(ulong)_prefabId}";
+
+        if (GlobalObjectId.TryParse(str, out var id))
+        {
+            var obj = GlobalObjectId.GlobalObjectIdentifierToObjectSlow(id);
+            Debug.Assert(Type == obj.GetType());
+            return obj;
+        }
+
+        return default;
+#else
+        if (string.IsNullOrEmpty(_guid))
+            return null;
+        return Resources.Load(_guid);
+#endif
+    }
     public async Task<T> LoadAsync<T>(CancellationToken token) where T : Object
     {
         if (string.IsNullOrEmpty(_guid))
             return null;
 
 #if UNITY_EDITOR
-        var objectFromData = ObjReference.GetObjectFromData(_guid, _localId, _typeId);
 
-        Debug.Assert(Type == objectFromData.GetType());
+        var str = $"GlobalObjectId_V1-{_typeId}-{_guid}-{_localId}-{_prefabId}";
 
-        return objectFromData as T;
+        if (GlobalObjectId.TryParse(str, out var id))
+        {
+            var obj = GlobalObjectId.GlobalObjectIdentifierToObjectSlow(id);
+            Debug.Assert(Type == obj.GetType());
+            return obj as T;
+        }
+
+        return default;
 #else
         if (string.IsNullOrEmpty(_guid))
             return null;
@@ -54,14 +88,13 @@ public class ResourcesObject
 
         while (request.isDone == false)
         {
-            await Task.Yield();
+            await Task.Delay(32).ConfigureAwait(true);
             token.ThrowIfCancellationRequested();
         }
 
         return request.asset as T;
 #endif
     }
-
 
     [SerializeField]
     private string _guid;
@@ -70,7 +103,10 @@ public class ResourcesObject
     private long _localId;
 
     [SerializeField]
-    private long _typeId;
+    private long _prefabId;
+
+    [SerializeField]
+    private int _typeId;
 
     [SerializeField]
     private string _objectName;
@@ -78,15 +114,20 @@ public class ResourcesObject
     [SerializeField]
     private string _assemblyQualifiedTypeName;
 
+    public bool IsValid => string.IsNullOrEmpty(_guid) == false;
+
     public string Guid => _guid;
 
     public long LocalId => _localId;
 
-    public long TypeId => _typeId;
+    public long PrefabId => _localId;
+
+    public int TypeId => _typeId;
 
     public string AssemblyQualifiedTypeName => _assemblyQualifiedTypeName;
 
     private Type _cachedType;
+
 
     public Type Type
     {
@@ -105,11 +146,10 @@ public class ResourcesObject
 
     public string ObjectName => _objectName;
 
-
-
 #if UNITY_EDITOR
 
     public static bool EditorIsBuilding = false;
+
 
     public static System.Collections.Generic.IEnumerable<string> ResourcesObjectsToGuidsEditor(System.Collections.Generic.IEnumerable<ResourcesObject> objects)
     {
@@ -132,8 +172,15 @@ public class ResourcesObject
 
     public void EditorSet(Object obj)
     {
-        if (obj != null && ObjReference.GetDataFromObject(obj, out _guid, out _localId, out _typeId))
+        if (obj != null)
         {
+            var globalObjId = GlobalObjectId.GetGlobalObjectIdSlow(obj);
+
+            _guid = globalObjId.assetGUID.ToString();
+            _typeId = globalObjId.identifierType;
+            _localId = (long)globalObjId.targetObjectId;
+            _prefabId = (long)globalObjId.targetPrefabId;
+
             _objectName = obj.name;
             _assemblyQualifiedTypeName = obj.GetType().AssemblyQualifiedName;
         }
@@ -145,7 +192,6 @@ public class ResourcesObject
             _objectName = string.Empty;
             _assemblyQualifiedTypeName = string.Empty;
         }
-
     }
 
     public void OnBeforeSerialize()
@@ -156,12 +202,19 @@ public class ResourcesObject
         if (EditorIsBuilding == false) //if we serialize during the build then move the asset to resources
             return;
 
+#if UNITY_EDITOR
+
+        if (Type == typeof(SceneAsset))
+            return;
+
         var path = AssetDatabase.GUIDToAssetPath(_guid);
 
         if (path.Contains("Resources") == false)
         {
-            Debug.LogError($"{_guid} is not in resources, something is bad!");
+            Debug.LogError($"{_objectName} {_guid} is not in resources, something is bad!");
         }
+#endif
+
 
     }
 

@@ -28,7 +28,16 @@ public class ResourceMover : IPreprocessBuildWithReport, IPostprocessBuildWithRe
     {
         //check if already in resources folder
         if (assetPath.StartsWith("Assets/Resources"))
-            return Path.GetFileNameWithoutExtension(Path.GetFileName(assetPath));
+        {
+            var fileName = Path.GetFileNameWithoutExtension(Path.GetFileName(assetPath));
+
+            if (fileName != guid)
+            {
+                Debug.LogError($"Asset {assetPath} is already in resources but it's referenced by a {nameof(ResourcesObject)} field, please move it out of Resources folder!");
+            }
+
+            return fileName;
+        }
 
         CheckResourcesDirectory();
 
