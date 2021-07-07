@@ -1,4 +1,55 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class LifeCycleEvents : MonoBehaviour
+{
+    private static readonly List<ILifeCycleEvent> _listeners = new List<ILifeCycleEvent>();
+
+    private static LifeCycleEvents _instance;
+
+    private static void CreateInstance()
+    {
+        GameObject go = new GameObject(nameof(LifeCycleEvents));
+        go.hideFlags = HideFlags.NotEditable | HideFlags.DontSave;
+        DontDestroyOnLoad(go);
+        _instance = go.AddComponent<LifeCycleEvents>();
+    }
+
+    public static void AddListener(ILifeCycleEvent listener)
+    {
+        if (_instance == null)
+            CreateInstance();
+
+        if (_listeners.Contains(listener) == false)
+            _listeners.Add(listener);
+    }
+
+    public static void RemoveListener(ILifeCycleEvent listener)
+    {
+        if (_instance == null)
+            return;
+
+        _listeners.Remove(listener);
+    }
+
+    private void Update()
+    {
+        for (int i = _listeners.Count - 1; i >= 0; i--)
+        {
+            if (_listeners[i] is ILifeCycleUpdate lifeCycleUpdate)
+                lifeCycleUpdate.DoUpdate();
+        }
+    }
+
+    private void LateUpdate()
+    {
+        for (int i = _listeners.Count - 1; i >= 0; i--)
+        {
+            if (_listeners[i] is ILifeCycleLateUpdate lifeCycleUpdate)
+                lifeCycleUpdate.DoLateUpdate();
+        }
+    }
+}﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class LifeCycleEvents : MonoBehaviour
