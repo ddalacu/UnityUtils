@@ -68,7 +68,6 @@ public static class ArrayExtensions
             if (i == index)
             {
                 copy[i] = toAdd;
-                copyFromIndex++;
                 added = true;
                 continue;
             }
